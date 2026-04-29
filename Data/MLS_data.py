@@ -29,7 +29,8 @@ class Modulating_Laplacian_Sources:
     def Laplacian_sampler(self, n_steps, n_size, a, b, rho):
 
         # initial random seed
-        seed = int(time.time()) + os.getpid()
+        # seed = int(time.time()) + os.getpid()
+        seed = 12345
         rng = np.random.default_rng(seed)
         z_t0 = rng.normal(0, 0.1, n_size)
 
@@ -45,7 +46,7 @@ class Modulating_Laplacian_Sources:
             lap_sample = []
 
             for j in range(n_size):
-                lap_sample.append(np.random.laplace(loc=rho * sim_sample[i - 1, j], scale=1, size=1)[0])
+                lap_sample.append(rng.laplace(loc=rho * sim_sample[i - 1, j], scale=1, size=1)[0])
 
             lap_sample = np.array(lap_sample)  # 0.1 * np.random.randn(n_size)#
 

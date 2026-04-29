@@ -1,7 +1,7 @@
 import os
 
 ## models: {'TCL', ‘PCL’, 'iVAE', 'SigNICA'}
-name_model = 'TCL'
+name_model = 'iVAE'
 
 if name_model == 'TCL':
     from TCL import configs as cfg
@@ -123,8 +123,8 @@ elif name_model == 'PCL':
     # load data
     data = Data(cfg.n_steps, cfg.n_size, cfg.data_type)
 
-    Y = data.data.Y  ## mixed signals, [n_steps, n_size]
-    X = data.data.X  ## source signals, [n_steps, n_size]
+    Y = data.mixed_samples  ## mixed signals, [n_steps, n_size]
+    X = data.samples  ## source signals, [n_steps, n_size]
 
     with torch.no_grad():
 
@@ -137,6 +137,8 @@ elif name_model == 'iVAE':
     # load data
     data_sampler = Data(cfg.n_steps, cfg.n_size, cfg.data_type, cfg.U_size, cfg.batch_size)
     data_iterator = iter(data_sampler)
+
+    Y = data_sampler.mixed_data
 
     # evaluate
     _X = []
@@ -171,4 +173,4 @@ elif name_model == 'SigNICA':
 else:
     raise ValueError
 
-print('tensor', data.data.Y)
+print('tensor', Y)
